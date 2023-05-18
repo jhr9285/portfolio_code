@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>  
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>EasyFit</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/resources/css/sb-admin-2.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-clipboard"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">EasyFit <sup>+</sup></div>
+            </a>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - 공지사항 -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                	<i class="fas fa-fw fa-exclamation-circle"></i>
+                    <span>공지사항</span></a>
+            </li>
+            
+            
+            <!-- Nav Item - 회원관리 -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-user-edit"></i>
+                    <span>회원관리</span>
+                </a>
+            </li>
+
+
+            <!-- Nav Item - 운동일지 -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>운동일지</span>
+                </a>
+            </li>
+            
+            <!-- Nav Item - 스케줄 -->
+            <li class="nav-item">
+                <a class="nav-link" href="schedule.html">
+                    <i class="far fa-fw fa-calendar-alt"></i>
+                    <span>스케줄</span></a>
+            </li>
+            
+            
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="charts.html">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>통계</span></a>
+            </li>
+            
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+
+            <!-- Main Content -->
+            <div id="content">
+
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+
+                        <!-- Nav Item - 로그인 계정 정보 -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-black-600 small">&nbsp;<b>이성연</b> 트레이너 <i class="fas fa-sign-out-alt"></i></span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                
+                
+                
+                
+                
+                
+                
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">This Week</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row row-cols-1" id="weekly">
+
+                        <!-- Calendar - Weekly -->
+                        <!-- <a href="#"> -->
+                        	<div class="date-wrap">
+                       			<div class="button_wrap">
+                       				<button type="button" class="btn" id="week-prev" class="week-move" data-weekly="2023-03-19"> < </button>
+                       				<span id="week-this">2023.03 - 5주차</span>
+                       				<button type="button" class="btn" id="week-next" class="week-move" data-weekly="2023-04-02"> > </button>
+                       			</div>
+                        		<div class="table-responsive-sm">
+		                        	<table class="table date-week">
+		                        		<thead class="theadcolor">
+		                        			<tr>
+		                        				<td>일</td>
+		                        				<td>월</td>
+		                        				<td>화</td>
+		                        				<td>수</td>
+		                        				<td>목</td>
+		                        				<td>금</td>
+		                        				<td>토</td>
+		                        			</tr>
+		                        		</thead>
+		                        		<tbody id="tbl_week">
+		                        			<tr>
+		                        				<!-- 일요일 --> <td class="sun">26</td>
+		                        				<!-- 월요일 --> <td class="">27</td>
+		                        				<!-- 화요일 --> <td class="">28</td>
+		                        				<!-- 수요일 --> <td class="">29</td>
+		                        				<!-- 목요일 --> <td class="">30</td>
+		                        				<!-- 금요일 --> <td class="">31</td>
+		                        				<!-- 토요일 --> <td class="">1</td>
+		                        			</tr>
+		                        			<tr>
+		                        				<!-- 일요일 --> <td class=""></td> 
+		                        				<!-- 월요일 --> <td class="">13:00 김철수</td>
+		                        				<!-- 화요일 --> <td class="">15:00 최성은<br>17:00 김혁준<br>21:00 이영희</td>
+		                        				<!-- 수요일 --> <td class=""></td>
+		                        				<!-- 목요일 --> <td class="">11:00 박수정<br>15:00 최성은<br>17:00 김혁준<br>19:00 이 한 <br>21:00 이영희</td>
+		                        				<!-- 금요일 --> <td class="">20:00 문지훈</td>
+		                        				<!-- 토요일 --> <td class=""></td>
+		                        			</tr>
+		                        		</tbody>
+		                        	</table>
+                        		</div>	
+                        	</div>
+                        <!-- </a> -->
+					</div>
+				
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">월별 PT 현황 요약</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myBarChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+	                    <div class="col-lg-5 mb-5">
+	
+	                        <!-- 공지사항 -->
+	                        <div class="card shadow mb-4">
+	                            <div class="card-header py-3">
+	                                <h6 class="m-0 font-weight-bold text-primary">공지사항</h6>
+	                            </div>
+	                            <div class="card-body">
+	                            	<table class="table2">
+	                            		<thead class="theadcolor">
+	                            			<tr>
+	                            				<td>No.</td>
+	                            				<td>제목</td>
+	                            			</tr>
+	                            		</thead>
+	                            		<tbody>
+	                            			<tr>
+	                            				<td>1</td>
+	                            				<td>3월 휴무 안내</td>
+	                            			</tr>
+	                            			<tr>
+	                            				<td>2</td>
+	                            				<td>코로나 방역 대책 변경 안내</td>
+	                            			</tr>
+	                            		</tbody>
+	                            	</table>
+	                            </div>
+	                        </div>
+	
+	                    </div>
+	                    
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            
+            
+            
+            
+            
+            
+            
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>2023, Team EasySpring</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-bar-demo.js"></script>
+
+</body>
+
+</html>
+
