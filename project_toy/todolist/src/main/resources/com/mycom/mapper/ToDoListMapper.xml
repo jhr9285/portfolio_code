@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.mapper.ToDoListMapper">
+
+	<!-- 동적 SQL문 시작(공통 모듈로 처리) -->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR"> <!-- prefixOverrides="OR" : where절 맨 처음에는 OR을 입력하지 않겠다는 의미 -->
+			<foreach item='type' collection="typeArr"> <!-- typeArr : 제목/내용/작성자 검색 타입 배열 -->
+				<trim prefix="OR"> <!-- 복합 검색 시 where절 조건식 OR 조건식 되도록 함 -->
+					<choose>
+						<when test="type == 'C'.toString()">
+							content LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'S'.toString()">
+							state LIKE '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	<!-- 동적 SQL문 끝 -->
+	
+	<select id="getList" resultType="com.mycom.domain.ToDoListVO">
+		SELECT * FROM todolist WHERE no > 0
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO todolist(no, content, state)
+		VALUES(seq_todolist.NEXTVAL, #{content}, #{state})
+	</insert>
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="no" order="BEFORE" resultType="long">
+			SELECT seq_todolist.NEXTVAL FROM dual
+		</selectKey>
+		
+		INSERT INTO todolist(no, content, state)
+		VALUES(#{no}, #{content}, #{state})
+	</insert>
+	
+	<select id="read" resultType="com.mycom.domain.ToDoListVO">
+		SELECT * FROM todolist WHERE no = #{no} 
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM todolist WHERE no = #{no}
+	</delete>
+	
+	<update id="update">
+		UPDATE 
+			todolist
+		SET 
+			content = #{content}, 
+			state = #{state}  
+		WHERE 
+			no = #{no} 
+	</update>
+	
+	<!-- 검색어 정보와 함께 페이징 처리 -->
+	<!-- ![CDATA[]] : 꺽쇠 기호(<>) ESCAPE 문자 -->
+	<select id="getListWithPaging" resultType="com.mycom.domain.ToDoListVO">
+		<![CDATA[ 
+			SELECT
+				no, content, state, wdate
+			FROM
+				(
+					SELECT /*+INDEX_DESC(todolist TDL_NO_PK) */
+						rownum rn, no, content, state, wdate
+					FROM
+						todolist
+					WHERE 
+		]]>
+	
+		<include refid="criteria"></include>
+		
+		<![CDATA[
+				rownum <= #{pageNum} * #{amount}
+				)
+			WHERE
+				rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM todolist WHERE 
+		
+		<include refid="criteria"></include>
+		
+		 no > 0
+		 
+	</select>
+
+</mapper>
