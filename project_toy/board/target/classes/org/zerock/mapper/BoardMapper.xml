@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mapper.xml 파일 만들 때는 src/main/resources 에서 우클릭으로 org, zerock, mapper 폴더를 각각 만들어야 된다. -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.BoardMapper">
+
+	<!-- 동적 SQL문은 공통 모듈로 처리할 수 있어서 아래와 같이 작성하였음 ==> include refid=criteria 코드로 넘어감 -->
+	<sql id="criteria">			   <!-- prefixOverrides="OR" : 맨 처음에는 OR을 입력하지 않겠다는 의미 -->
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR"> <!-- 접두어 '(', 접미어 ') AND' 적용하겠다는 의미 -->
+			<foreach item='type' collection="typeArr"> <!-- typeArr : 제목/내용/작성자 검색 타입 배열 -->
+				<trim prefix="OR"> <!-- 복합 검색 할 때 where절 조건식들 사이에 or를 붙여서 모든 범위에서 검색하도록 함 -->
+					<choose>
+						<when test="type == 'T'.toString()">
+							title LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer LIKE '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<!-- ★ resultType="org.zerock.domain.BoardVO" ==> CRUD 결과를 자동으로 모델(VO)에 담도록 하는 코드 -->
+	
+	<select id="getList" resultType="org.zerock.domain.BoardVO">
+		SELECT * FROM tbl_board WHERE bno > 0
+	</select>
+
+	<!-- bno(글번호) > 0 ==> 인덱스로 데이터를 잘 찾기 위해 코딩 (인덱스 쓰도록 유도) - 오라클에 옵티마이저가 있어서 꼭 필요하지는 않음 -->
+	
+	<insert id="insert">
+		INSERT INTO tbl_board(bno, title, content, writer)
+		VALUES(seq_board.NEXTVAL, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+			SELECT seq_board.NEXTVAL FROM dual
+		</selectKey>
+		
+		INSERT INTO tbl_board(bno, title, content, writer)
+		VALUES(#{bno}, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<!-- selectKey : SQL이 실행되기 전에 별도의 PK값등을 얻기 위해서 사용
+					 order=‘before’ 를 이용해서 insert구문이 실행되기 전에 호출
+					 keyProperty를  통해 BoardVO의 bno값으로  세팅 				-->
+
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+		SELECT * FROM tbl_board WHERE bno = #{bno}
+	</select>
+					 
+	<delete id="delete">
+		DELETE FROM tbl_board WHERE bno = #{bno}
+	</delete>
+	
+	<!-- sql update문은 update절에 테이블 이름만 입력! -->
+	<update id="update">
+		UPDATE
+			tbl_board
+		SET
+			title = #{title},
+			content = #{content},
+			writer = #{writer},
+			updatedate = sysdate
+		WHERE
+			bno = #{bno}
+	</update>
+
+	<!-- 검색어 없이 페이징 처리 하는 select문 -->
+	<!-- ![CDATA[]] : ESCAPE 문자 (<> 꺽쇠 기호를 사용하기 때문에 코드 꼬임을 방지해야 됨) -->
+<!-- select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[ 
+			SELECT
+				bno, title, content, writer, regdate, updatedate
+			FROM
+				(
+					SELECT /*+INDEX_DESC(tbl_board TBL_BOARD_PK) */
+						rownum rn, bno, title, content, writer, regdate, updatedate
+					FROM
+						tbl_board
+					WHERE
+						rownum <= #{pageNum} * #{amount} 
+				)
+			WHERE
+				rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select> -->
+	
+	<!-- 검색어 있을 때 페이징 처리 하는 select문 -->
+	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[
+			SELECT
+				bno, title, content, writer, regdate, updatedate, replyCnt		
+			FROM
+				(
+					SELECT /*+INDEX_DESC(tbl_board TBL_BOARD_PK) */
+						rownum rn, bno, title, content, writer, regdate, updatedate, replyCnt
+					FROM
+						tbl_board
+					WHERE
+		]]>
+		
+		<include refid="criteria"></include>
+		
+		<![CDATA[
+				rownum <= #{pageNum} * #{amount}
+				)
+			WHERE
+				rn > (#{pageNum} - 1) * #{amount}
+		]]> 
+
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM tbl_board WHERE 
+		
+		<include refid="criteria"></include>
+		
+		 bno > 0
+		
+	</select>
+	
+	<update id="updateReplyCnt">
+		UPDATE
+			tbl_board
+		SET
+			replyCnt = replyCnt + #{amount} <!-- amount = 1 or -1 -->
+		WHERE
+			bno = #{bno}
+	</update>
+		
+</mapper>
