@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 클래스 직접 만들어야 됨 - 패키지 : org.zerock.security -->
+	<bean id="customAccessDenied" class="org.zerock.security.CustomAccessDeniedHandler"></bean> <!-- access 실패 클래스 -->
+	<!-- <bean id="customLoginSuccess" class="org.zerock.security.CustomLoginSuccessHandler"></bean> 로그인 성공 클래스 -->
+	
+	<!-- (테스트 코드) 직접 알고리즘을 가지고 암호화하는 경우는 아래의 주석처리된 코드를 입력하고 클래스 만들어서 암호화 진행 -->
+	<!-- <bean id="customPasswordEncoder" class="org.zerock.security.CustomNoOpPasswordEncoder"></bean> --> 
+	
+	<!-- BCrypt 암호화 사용 - bcrypt : 알고리즘 중 하나. 복호화가 되지 않는다는 특징이 있다. -->
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> 
+	
+	<!-- customUserDetialsService Bean 등록 -->
+	<bean id="customUserDetailsService" class="org.zerock.security.CustomUserDetailsService"></bean>
+	
+	<security:http>
+	
+	
+		<!-- access 실패한 경우의 코드 -->
+		<security:access-denied-handler ref="customAccessDenied" />
+		
+		<!-- 로그인하는 경우의 코드 -->
+		<!-- <security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" /> -->
+		
+		<!-- remember-me 설정 후에 사용하는, 로그인하는 경우의 코드 -->
+		<security:form-login login-page="/customLogin" />
+		
+		<!-- 로그아웃하는 경우의 코드 (invalidate-session="true"라고 코딩하면 로그아웃 시 자동으로 session invalidate가 실행됨) -->
+		<!-- 쿠키도 삭제하도록 delete-cookies 속성, 값 추가 입력 -->
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
+		
+		<!-- 자동로그인 유지시간 지정하는 코드 -->
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
+		
+		
+		
+		<!-- ★★ csrf 토큰을 사용하지 않는 경우 아래 코드를 추가 입력함 (기본값: false)-->
+		<!-- <security:csrf disabled="true" /> -->
+		
+		
+		<!-- (테스트 코드) ==> annotation으로 대체 (실무에서도 annotation 사용) -->
+<!-- 	<security:intercept-url pattern="/sample/all" access="permitAll" />
+		<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />
+		<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')" /> -->
+		
+	</security:http>
+
+	
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailsService"> 
+			
+			<!-- DB를 이용하여 로그인 인증 하는 코드 (아래 코드를 위의 "customUserDetailsService"로 대체함)-->
+			<!-- <security:jdbc-user-service data-source-ref="dataSource" 
+				users-by-username-query="select userid, userpw, enabled from tbl_member where userid = ? " 
+				authorities-by-username-query="select userid, auth from tbl_member_auth where userid = ? " /> --> 
+			
+			<!-- (테스트 코드) custom password encoder 암호화 코드 입력 -->
+			<!-- <security:password-encoder ref="customPasswordEncoder" /> -->
+			
+			<!-- BCrypt 암호화 코드 입력 -->
+			<security:password-encoder ref="bcryptPasswordEncoder" /> 
+		
+			<!-- (테스트 코드) -->
+			<!-- <security:user-service> --> <!-- ★ security:user 의 name 은 id 임!! -->
+				<!-- <security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/> -->
+				<!-- <security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/> 권한 2개 -->
+			<!-- </security:user-service> -->
+			
+		</security:authentication-provider> 
+	</security:authentication-manager>
+
+
+</beans>
