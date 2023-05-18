@@ -1,2 +1,2 @@
-# portfolio_code
-포트폴리오 프로젝트 소스코드
+# Portfolio_Code
+포트폴리오에 담긴 프로젝트의 소스코드를 보실 수 있습니다.<br>
