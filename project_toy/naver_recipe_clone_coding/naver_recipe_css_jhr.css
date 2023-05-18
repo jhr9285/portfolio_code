@@ -1,0 +1,243 @@
+html, body {
+	max-width: 830px;
+	height: 100%;
+	margin: 0px auto;
+}
+
+section {
+	max-width: 750px;
+	margin: 0px auto;
+}
+
+.inblock {
+	display: inline-block;
+}
+
+.fl {
+	float: left;
+}
+.fr {
+	float: right;
+}
+
+.toptext {
+	width: 100%;
+	height: 34px;
+	padding: 0px 0px 17px;
+	font-size: 12px;
+}
+
+.topleft {
+	position: relative;
+	right: 40px;
+}
+.topright {
+	position: relative;
+	left: 54px;
+}
+
+h6 {
+	display: inline-block;
+	font-weight: bold;
+	font-size: 14px;
+	margin: 0px;
+}
+
+h6 + span {
+	color: #808080;
+}
+
+.wheel {
+	width : 11px;
+	height: 11px;
+	margin-right: 5px;
+	background-image: url(../img/naver/sp_main_947f65.png);
+	background-size: 371px 373px;
+	background-position: -277px -643px;
+	background-attachment: scroll;
+	overflow: hidden;
+	float: right;
+	position: relative;
+	right: 90px;
+	top: 3px;
+}
+
+.tabbox {
+	display: inline-block;
+	text-align: center;
+	height: 49px;
+	font-size: 13px;
+	font-weight: bold;
+	border: 1px solid lightgray;
+	margin: 0px;
+	line-height: 380%;
+}
+#recipe {
+	background-color: orange;
+	color: white;
+	border-color: orange;
+}
+
+.arrowleft {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	background-image: url(../img/naver/sp_main_947f65.png);
+	background-size: 432px 431px;
+	background-position: 311px 90px;
+	background-attachment: scroll;
+	overflow: hidden;
+	position: relative;
+	left: -23px;
+	top: 65px;
+	vertical-align: top;
+}
+.arrowright {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	background-image: url(../img/naver/sp_main_947f65.png);
+	background-size: 432px 431px;
+	background-position: 349px 90px;
+	background-attachment: scroll;
+	overflow: hidden;
+	position: relative;
+	right: -19px;
+	top: 65px;
+	vertical-align: top;
+}
+
+.movleft {
+	display: inline-block;
+	border: 1px solid lightgray;
+}
+.movright {
+	display: inline-block;
+	border: 1px solid lightgray;
+}
+.playleft {
+	display: inline-block;
+	width: 24px;
+	height: 28px;
+	background-image: url(../img/naver/sp_main_947f65.png);
+	background-size: 523px 527px;
+	background-position: -498px -585px;
+	background-attachment: scroll;
+	overflow: hidden;
+	position: relative;
+	top: 280px;
+	left: -28px;
+	vertical-align: top;
+}
+.playright {
+	display: inline-block;
+	width: 24px;
+	height: 28px;
+	background-image: url(../img/naver/sp_main_947f65.png);
+	background-size: 523px 527px;
+	background-position: -498px -585px;
+	background-attachment: scroll;
+	overflow: hidden;
+	position: relative;
+	top: 280px;
+	left: 330px;
+	vertical-align: top;
+}
+
+.movtext {
+	display: inline-block;
+	width: 364px;
+	height: 121px;
+	padding: 16px 18px 0px 0px;
+	position: relative;
+	bottom: 3px;
+}
+
+.movtext1 {
+	display: inline-block;
+	width: 346px;
+	height: 16px;
+	color: #EBAA00;
+	font-size: 12px;
+	font-weight: bold;
+}
+.movtext2 {
+	display: inline-block;
+	width: 346px;
+	height: 16px;
+	color: #202020;
+	margin: 6px 0px 0px;
+	font-weight: bold;
+}
+.movtext3 {
+	display: inline-block;
+	width: 346px;
+	height: 42px;
+	color: #404040;
+	margin: 5px 0px 0px;
+}
+.movtext4 {
+	display: inline-block;
+	height: 16px;
+	color: #505050;
+}
+
+.pictextall {
+	display: inline-block;
+	height: 546px;
+	font-size: 12px;
+	padding: 18px 0px;
+}
+.pictext {
+	display: inline-block;
+	width: 750px;
+	height: 114px;
+	margin: 18px 0px 0px;
+	position: relative;
+	bottom: 20px;
+}
+
+.pictextbox {
+	display: inline-block;
+	width: 559px;
+	height: 106px;
+	color: #202020;
+	font-size: 12px;
+	padding: 4px 47px 0px 0px;
+	position: relative;
+	left: 20px;
+	bottom: 2px;
+}
+
+.pictext1 {
+	display: inline-block;
+	width: 512px;
+	height: 16px;
+	color: #EBAA00;
+	font-size: 12px;
+	font-weight: bold;
+}
+.pictext2 {
+	display: inline-block;
+	width: 512px;
+	height: 20px;
+	color: #202020;
+	font-size: 13px;
+	font-weight: bold;
+	margin: 2px 0px 0px;
+	font-weight: bold;
+}
+.pictext3 {
+	display: inline-block;
+	width: 512px;
+	height: 40px;
+	color: #404040;
+	font-size: 12.5px;
+	margin: 2px 0px 0px;
+}
+.pictext4 {
+	display: inline-block;
+	height: 20px;
+	color: #505050;
+	font-size: 12px;
+}
