@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easyfit.mapper.LoginMapper"><!-- Query 작성시 CDATA 꼭 써주세요. -->
+<!-- <![CDATA[	]]> -->
+<resultMap type="com.easyfit.domain.TrainerVO" id="trainerMap">
+	<id property="tid" column="tid"/>
+	<result property="tno" column="tno"/>
+	<result property="tname" column="tname"/>
+	<result property="tpassword" column="tpassword"/>
+	<result property="tgen" column="tgen"/>
+	<result property="ttel" column="ttel"/>
+	<result property="taddress" column="taddress"/>
+	<result property="tmemo" column="tmemo"/>
+	<result property="tid" column="tid"/>
+	<collection property="trainerAuthList" resultMap="trainerAuthMap"></collection>
+</resultMap>
+<resultMap type="com.easyfit.domain.TrainerAuthVO" id="trainerAuthMap">
+	<result property="tid" column="tid"/>
+	<result property="auth" column="auth"/>
+</resultMap>
+<select id="get" resultMap="trainerMap">
+<![CDATA[
+SELECT
+    t.tno, t.tname, t.tpassword, t.tgen, t.ttel, t.taddress, t.enabled, t.tmemo, t.tid, auth.auth
+FROM
+    trainer t LEFT OUTER JOIN trainer_auth auth ON t.tid = auth.tid
+WHERE
+    t.tid = #{tid}
+]]>
+</select>
+
+
+	
+	<!-- 로그인한 트레이너의 올해 월별 PT 수업 횟수 조회 (JHR) -->
+	<!-- <sekect id="prCountSum" parameterType="String"></sekect> -->
+	<select id="prCountSum" resultType="com.easyfit.domain.join.LoginJoinVO">
+		<![CDATA[
+			SELECT
+			    eMonth, SUM(prcount) prcountSum
+			FROM
+			    (
+			    SELECT DISTINCT
+			        TO_CHAR(er.edate, 'yyyy-mm') eMonth, pr.prcount prcount
+			    FROM
+			        ptrecord pr, exerciserecord er, trainer_auth auth
+			    WHERE
+			        pr.prno = er.prno
+			        AND pr.tno = auth.tno
+			        AND TO_CHAR(er.edate, 'yyyy') = TO_CHAR(sysdate, 'yyyy')
+			        AND auth.tid = #{tid}
+			    )
+			GROUP BY
+			    eMonth
+			ORDER BY
+    			eMonth
+		]]>
+	</select>
+</mapper>
