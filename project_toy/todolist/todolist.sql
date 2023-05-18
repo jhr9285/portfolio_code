@@ -88,7 +88,7 @@ FROM
             ) tb
     )
 WHERE
-    rNum BETWEEN 1 AND 10  -- 페이징처리는 rounum으로. (고정된 인덱스 생성)
+    rNum BETWEEN 1 AND 10 
 ;
 
 -- 검색 결과 카운팅 쿼리문
