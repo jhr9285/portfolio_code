@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.MemberMapper">
+ 
+ 	<!-- ★ MyBatis의 <resultMap>을 활용하여 JOIN 처리 시 발생하는 1:N 문제 해결 -->
+	<resultMap type="org.zerock.domain.MemberVO" id="memberMap"> <!-- id 값 = 22행 select문의 resultMap 값과 매칭 -->
+		<id property="userid" column="userid" /> <!-- id 태그 사용 (한번만 사용하고 이후에는 result 태그 사용 -->
+		<result property="userid" column="userid" />
+		<result property="userpw" column="userpw" />
+		<result property="userName" column="userName" />
+		<result property="regDate" column="regdate" />
+		<result property="updateDate" column="updatedate" />
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+	
+	<resultMap type="org.zerock.domain.AuthVO" id="authMap"> <!-- id 값 = 14행 collection 태그의 resultMap 값과 매칭 -->
+		<result property="userid" column="userid" />
+		<result property="auth" column="auth" />
+	</resultMap>
+	
+	<select id="read" resultMap="memberMap"> 
+		SELECT
+			m.userid, userpw, username, enabled, regdate, updatedate, auth
+		FROM
+			tbl_member m
+		LEFT OUTER JOIN
+			tbl_member_auth a
+		ON
+			m.userid = a.userid
+		WHERE
+			m.userid = #{userid}
+	</select>
+
+</mapper>
