@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easyfit.mapper.TrainerBoardMapper"><!-- Query 작성시 CDATA 꼭 써주세요. -->
+	
+<sql id="criteria">
+	<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+		<foreach item="type" collection="typeArr">
+		<trim prefix="OR">
+			<choose>
+				<when test="type == 'T'.toString()"> tbtitle LIKE '%'||#{keyword}||'%' </when>
+				<when test="type == 'C'.toString()"> tbcontent LIKE '%'||#{keyword}||'%' </when>
+				<when test="type == 'W'.toString()"> tno LIKE '%'||#{keyword}||'%' </when>
+			</choose>
+		</trim>
+		</foreach>
+	</trim>
+</sql>
+	
+<!-- <select id="list" resultType="com.easyfit.domain.TrainerBoardVO">
+SELECT 
+	tbno, tbtitle, tbcontent, tbdate, tbupdatedate, tno, tid
+FROM ( 
+	SELECT
+		rownum rn, tbno, tbtitle, tbcontent, tbdate, tbupdatedate, tb.tno, tid
+	FROM
+		trainerboard tb, trainer_auth auth
+	WHERE		
+<include refid="criteria"/>
+<![CDATA[
+		tb.tno = auth.tno
+		AND rownum <= #{pageNum} * #{amount}
+	)
+WHERE
+	rn > (#{pageNum} - 1) * #{amount} 
+]]>
+</select> -->
+
+<select id="list" resultType="com.easyfit.domain.join.TrainerBoardJoinVO">
+SELECT 
+    tb.tbno tbno, tb.tbtitle tbtitle, tb.tbcontent tbcontent, tb.tbdate tbdate, tb.tbupdatedate tbupdatedate, tb.tno tno, auth.tid tid, tr.tname tname
+FROM 
+    (
+    SELECT
+        rownum rn, tb.tbno, tb.tbtitle, tb.tbcontent, tb.tbdate, tb.tbupdatedate, tb.tno, auth.tid
+    FROM
+        trainerboard tb
+        INNER JOIN trainer_auth auth ON tb.tno = auth.tno
+    WHERE
+<include refid="criteria"/>
+<![CDATA[
+     	rownum <= #{pageNum} * #{amount}
+     ORDER BY
+     	tbno
+    ) tb
+    INNER JOIN trainer tr ON tr.tno = tb.tno
+    INNER JOIN trainer_auth auth ON auth.tno = tb.tno
+WHERE
+    rn > (#{pageNum} - 1) * #{amount} 
+]]>
+</select>
+<!--  총 게시글 수  -->
+<select id="count" resultType="Long"> 	
+SELECT
+	count(*)	
+FROM
+	trainerboard	
+WHERE	
+<include refid="criteria"/>	
+<![CDATA[
+tbno > 0 	
+]]>	
+</select>
+		
+	
+	
+<!--  공지사항 상세보기  -->
+<!-- <select id="get" resultType="com.easyfit.domain.TrainerBoardVO"> 
+	<![CDATA[
+	SELECT
+	    tbno, tno, tbtitle, tbcontent, tbdate, tbupdatedate
+	FROM
+	    trainerboard
+	
+	WHERE tbno = #{tbno} 
+	]]>
+</select> -->
+
+<!--  공지사항 상세보기  -->
+<select id="get" resultType="com.easyfit.domain.join.TrainerBoardJoinVO"> 
+SELECT
+    tbno, tb.tno tno, tbtitle, tbcontent, tbdate, tbupdatedate, tr.tname tname, auth.tid tid
+FROM
+    trainerboard tb, trainer tr, trainer_auth auth
+WHERE 
+    tbno = #{tbno} 
+    AND tb.tno = tr.tno
+    AND tr.tid = auth.tid
+</select>
+	
+	
+	
+<!--  공지사항 등록하기  -->
+<insert id="register"> 
+	<![CDATA[
+	INSERT INTO trainerboard(
+		 tbno, tno, tbtitle, tbcontent, tbdate, tbupdatedate) 
+	SELECT
+		 trainerboard_seq.NEXTVAL, #{trainerboard.tno}, #{trainerboard.tbtitle}, #{trainerboard.tbcontent}, sysdate, sysdate
+	FROM 
+		trainer_auth
+	WHERE 
+		trainer_auth.tid = #{tid}
+	]]>
+</insert>
+	
+	
+<!--  공지사항 수정하기  -->
+<update id="modify"> 
+	<![CDATA[ 
+	UPDATE 
+   		trainerboard 
+	SET 
+	    tbtitle = #{trainerboard.tbtitle}, 
+	    tbcontent = #{trainerboard.tbcontent},
+	    tbupdatedate = sysdate
+	WHERE 
+	    tbno = #{trainerboard.tbno}	
+	    AND 
+	    	tno 
+    	IN (
+	        SELECT 
+	        	tno 
+        	FROM 
+        		trainer_auth 
+       		WHERE 
+     			tid = #{tid}
+    )
+	]]>
+</update>
+	
+<!-- 공지사항 삭제하기 -->
+<delete id="remove" >
+	<![CDATA[ 
+	DELETE
+	FROM 
+		trainerboard tb
+	WHERE 
+		tb.tbno = #{tbno}
+		AND EXISTS (
+	        SELECT 
+	        	tb.tbno
+			FROM 
+				trainer_auth auth, trainerboard tb
+			WHERE 
+				auth.tno = tb.tno
+			AND 
+				auth.tid = #{tid}
+	)
+	]]>
+</delete>
+	
+</mapper>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
