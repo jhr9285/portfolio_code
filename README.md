@@ -37,7 +37,7 @@ https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb71
 https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb715c1c63/project_team_EasyFit/main/java/service/LessonServiceImpl.java <br>
 * LoginService.java
 https://github.com/jhr9285/portfolio_src/blob/101a2f4ba157549221548f087fe27d7d0e8cf866/project_team_EasyFit/main/java/service/LoginService.java <br>
-* LoginServiceImple.java
+* LoginServiceImpl.java
 https://github.com/jhr9285/portfolio_src/blob/101a2f4ba157549221548f087fe27d7d0e8cf866/project_team_EasyFit/main/java/service/LessonServiceImpl.java <br>
 <br>
 
