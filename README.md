@@ -1,7 +1,7 @@
 # Portfolio_src
 포트폴리오에 담긴 프로젝트의 소스코드를 보실 수 있습니다.<br>
 <br>
-<b>[담당 파일 목록]</b><br>
+<b>[팀프로젝트 담당 코드 목록]</b><br>
 <br>
 <b>1. Controller</b><br>
 * LessonController.java
