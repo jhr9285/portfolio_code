@@ -2,7 +2,7 @@
 포트폴리오에 담긴 프로젝트의 소스코드를 보실 수 있습니다.<br>
 <br>
 <b>[담당 파일 목록]</b> <br>
-1. Controller <br>
+1. Controller
 * LessonController.java
 https://github.com/jhr9285/portfolio_src/blob/5c178d481e39d0bcee181fddb38a9ba8cca1b697/project_team_EasyFit/main/java/controller/LessonController.java <br>
 * ExerciseTypeController.java
@@ -36,7 +36,7 @@ https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb71
 * lessonList.jsp 
 https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb715c1c63/project_team_EasyFit/main/webapp/WEB-INF/views/easyfit/lessonList.jsp <br>
 * lessonModify.jsp 
-https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb715c1c63/project_team_EasyFit/main/webapp/WEB-INF/views/easyfit/lessonModify.jsp
+https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb715c1c63/project_team_EasyFit/main/webapp/WEB-INF/views/easyfit/lessonModify.jsp <br>
 * lessonRegister.jsp 
-https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb715c1c63/project_team_EasyFit/main/webapp/WEB-INF/views/easyfit/lessonRegister.jsp
+https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb715c1c63/project_team_EasyFit/main/webapp/WEB-INF/views/easyfit/lessonRegister.jsp <br>
 <br>
