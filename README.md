@@ -28,7 +28,8 @@ https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb71
 https://github.com/jhr9285/portfolio_src/blob/da7053a3aacb14269a0078961af63fdb715c1c63/project_team_EasyFit/main/resources/mapper/LessonMapper.xml <br>
 * LoginMapper.java
 https://github.com/jhr9285/portfolio_src/blob/101a2f4ba157549221548f087fe27d7d0e8cf866/project_team_EasyFit/main/java/mapper/LoginMapper.java <br>
-<br>
+* LoginMapper.xml
+https://github.com/jhr9285/portfolio_src/blob/d475225269a53685b4ffb31be95825aad09c731b/project_team_EasyFit/main/resources/mapper/LoginMapper.xml<br>
 
 <b>4. Service</b><br>
 * LessonService.java 
